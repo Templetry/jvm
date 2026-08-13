@@ -1,0 +1,35 @@
+schema_version: 1
+name: jvm-spring-boot
+description: Spring Boot service — Kotlin, Gradle Kotlin DSL, web starter, RANDOM_PORT tests
+platform: backend
+framework: spring-boot
+
+variables:
+  - key: project_name
+    label: Project name
+    type: string
+    pattern: "^[A-Za-z][A-Za-z0-9 ]*$"
+  - key: base_package
+    label: Base package
+    type: string
+    pattern: "^[a-z][a-z0-9]*(\\.[a-z][a-z0-9]*)+$"
+
+identity:
+  - from: "es.sebas1705"           # group + package prefix (also renames dirs)
+    to: "{base_package}"
+  - from: "templateapp"            # package leaf dir
+    to: "{project_name.flat}"
+  - from: "template-app"           # rootProject.name, application name, docker tag
+    to: "{project_name.kebab}"
+  - from: "TemplateApp"            # docs
+    to: "{project_name.pascal}"
+
+features:
+  - key: docker
+    label: Dockerfile (temurin JRE)
+    default: true
+    files: ["Dockerfile", ".dockerignore"]
+
+verify:
+  image: eclipse-temurin:21
+  run: ./gradlew build --no-daemon

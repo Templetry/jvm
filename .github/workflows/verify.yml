@@ -1,0 +1,35 @@
+name: Verify forms
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: verify-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  spring-boot:
+    name: spring-boot (default)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install templetry
+        run: |
+          curl -sL -o /usr/local/bin/templetry \
+            "https://github.com/Templetry/engine/releases/download/v1.4.0/templetry-linux-amd64"
+          chmod +x /usr/local/bin/templetry
+      - name: Render
+        run: |
+          templetry render --template ./spring-boot --out "$RUNNER_TEMP/out" \
+            --set "project_name=Verify App" --set "base_package=com.verify.app"
+          chmod +x "$RUNNER_TEMP/out/gradlew"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Build rendered output
+        working-directory: ${{ runner.temp }}/out
+        run: ./gradlew build --no-daemon --stacktrace
