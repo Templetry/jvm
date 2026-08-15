@@ -1,8 +1,9 @@
 schema_version: 1
 name: jvm-spring-boot
 description: Spring Boot service — Kotlin, Gradle Kotlin DSL, web starter, RANDOM_PORT tests
-platform: backend
-framework: spring-boot
+kinds: [backend]
+languages: [kotlin]
+frameworks: [spring-boot, gradle]
 
 variables:
   - key: project_name
