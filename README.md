@@ -5,6 +5,7 @@ JVM templates for [Templetry](https://github.com/Templetry). One **parent repo**
 | Form | What it is | Status |
 |---|---|---|
 | [`spring-boot/`](spring-boot/) | Spring Boot service — Kotlin, Gradle Kotlin DSL, web starter, RANDOM_PORT tests | ✅ ready |
+| [`ktor/`](ktor/) | Ktor 3 service — routes as extensions, kotlinx.serialization, testApplication suite | 🚧 awaiting first green CI |
 
 ## Usage
 

@@ -33,3 +33,29 @@ jobs:
       - name: Build rendered output
         working-directory: ${{ runner.temp }}/out
         run: ./gradlew build --no-daemon --stacktrace
+
+  ktor:
+    name: ktor (${{ matrix.name }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { name: default, args: "" }
+          - { name: no-docker, args: "--feature docker=false" }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Templetry/.github/actions/setup-templetry@main
+      - name: Render
+        run: |
+          templetry render --template ./ktor --out "$RUNNER_TEMP/out" \
+            --set "project_name=Verify App" --set "base_package=com.verify.app" ${{ matrix.args }}
+          chmod +x "$RUNNER_TEMP/out/gradlew"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Build rendered output
+        working-directory: ${{ runner.temp }}/out
+        run: ./gradlew build --no-daemon --stacktrace
