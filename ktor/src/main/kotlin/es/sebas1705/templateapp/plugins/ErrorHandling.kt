@@ -3,6 +3,9 @@ package es.sebas1705.templateapp.plugins
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
+// `log` is a top-level extension property on Application, so it needs its
+// own import — without it the reference simply does not resolve.
+import io.ktor.server.application.log
 import io.ktor.server.plugins.BadRequestException
 import io.ktor.server.plugins.statuspages.StatusPages
 import io.ktor.server.response.respond
