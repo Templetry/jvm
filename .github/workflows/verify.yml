@@ -15,15 +15,21 @@ concurrency:
 
 jobs:
   spring-boot:
-    name: spring-boot (default)
+    name: spring-boot (${{ matrix.name }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { name: default, args: "" }
+          - { name: minimal, args: "--preset minimal" }
     steps:
       - uses: actions/checkout@v4
       - uses: Templetry/.github/actions/setup-templetry@main
       - name: Render
         run: |
           templetry render --template ./spring-boot --out "$RUNNER_TEMP/out" \
-            --set "project_name=Verify App" --set "base_package=com.verify.app"
+            --set "project_name=Verify App" --set "base_package=com.verify.app" ${{ matrix.args }}
           chmod +x "$RUNNER_TEMP/out/gradlew"
       - uses: actions/setup-java@v4
         with:
@@ -42,7 +48,7 @@ jobs:
       matrix:
         include:
           - { name: default, args: "" }
-          - { name: no-docker, args: "--feature docker=false" }
+          - { name: minimal, args: "--preset minimal" }
     steps:
       - uses: actions/checkout@v4
       - uses: Templetry/.github/actions/setup-templetry@main

@@ -26,10 +26,25 @@ identity:
     to: "{project_name.pascal}"
 
 features:
+  - key: environments
+    label: development / staging / production profiles (ADR-0018)
+    default: true
+    files:
+      - "src/main/kotlin/es/sebas1705/templateapp/config/AppProperties.kt"
+      - "src/main/resources/application-development.yml"
+      - "src/main/resources/application-staging.yml"
+      - "src/main/resources/application-production.yml"
+      - "src/test/kotlin/es/sebas1705/templateapp/EnvironmentProfileTests.kt"
+
   - key: docker
     label: Dockerfile (temurin JRE)
     default: true
     files: ["Dockerfile", ".dockerignore"]
+
+presets:
+  - key: minimal
+    label: Single configuration, no Docker
+    features: {environments: false, docker: false}
 
 verify:
   image: eclipse-temurin:21

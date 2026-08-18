@@ -1,0 +1,7 @@
+logging:
+  level:
+    root: DEBUG
+app:
+  environment: development
+  verbose-errors: true
+  cache-seconds: 0

@@ -1,0 +1,7 @@
+logging:
+  level:
+    root: INFO
+app:
+  environment: staging
+  verbose-errors: true
+  cache-seconds: 30

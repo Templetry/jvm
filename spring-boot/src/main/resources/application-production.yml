@@ -1,0 +1,7 @@
+logging:
+  level:
+    root: WARN
+app:
+  environment: production
+  verbose-errors: false
+  cache-seconds: 300
