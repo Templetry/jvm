@@ -1,11 +1,11 @@
 # Build stage
-FROM eclipse-temurin:21 AS build
+FROM eclipse-temurin:25 AS build
 WORKDIR /src
 COPY . .
 RUN ./gradlew bootJar --no-daemon
 
 # Runtime stage
-FROM eclipse-temurin:21-jre
+FROM eclipse-temurin:25-jre
 WORKDIR /app
 COPY --from=build /src/build/libs/*.jar app.jar
 EXPOSE 8080

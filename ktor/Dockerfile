@@ -1,5 +1,5 @@
 # Build stage
-FROM eclipse-temurin:21 AS build
+FROM eclipse-temurin:25 AS build
 WORKDIR /src
 COPY . .
 # installDist, not a fat jar: the application plugin already produces a
@@ -8,7 +8,7 @@ COPY . .
 RUN ./gradlew installDist --no-daemon
 
 # Runtime stage
-FROM eclipse-temurin:21-jre
+FROM eclipse-temurin:25-jre
 WORKDIR /app
 COPY --from=build /src/build/install/template-app/ ./
 EXPOSE 8080
